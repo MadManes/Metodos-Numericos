@@ -1,52 +1,3 @@
-import numpy as np
-
-# Interpolación de Lagrange
-def polinomios_base_lagrange(x_datos, x_val):
-    n = len(x_datos)
-    x_val = np.atleast_1d(n, len(x_val))
-    polinomios = np.zeros(n, len(x_val))
-
-    for i in range(n):
-        numerador = 1
-        denominador = 1
-        for j in range(n):
-            if i != j:
-                numerador *= (x_val - x_datos[j])
-                denominador *= (x_datos[i] - x_datos[j])
-
-        polinomios[i,:] = numerador / denominador
-
-    return polinomios
-
-def lagrange(x_datos, y_datos, x_val):
-    polinomios = polinomios_base_lagrange(x_datos, x_val)
-
-    return np.sum(y_datos * polinomios, axis=0)
-
-
-
-# Forma interpolante de Newton, donde x es la tupla de los x0,x1,...,xn
-# y fun es la función a interpolar.
-
-def funcion(x):
-    return 1/x
-
-def inewton(x, fun, a):
-    p_n = 0
-    n = len(x)  # la posición n va a representar la diferencia de orden
-
-    diferencias = dif_divididas(x, fun)
-    puntos = []
-
-    for i in range(n):
-        if i == 0: puntos.append(1)
-        else: puntos.append(puntos[i-1] * (a - x[i]))
-        p_n += diferencias[i][0] * puntos[i]
-
-    print(f'PN ---> {p_n}')
-
-    return p_n
-
 def dif_divididas(x, fun):
     difs = []        # las diferencias divididas que van a servir para armar p
     orden = len(x)   # el indice va a representar la diferencia de orden
@@ -100,7 +51,3 @@ def dif_divididas(x, fun):
                     matriz_ordenes[i].append(0)
 
     return matriz_ordenes
-
-
-#print(dif_divididas((2, 2.5, 4), funcion))
-print(inewton((2, 2.5, 4, 6, 6.6, 7, 9), funcion, 7))
