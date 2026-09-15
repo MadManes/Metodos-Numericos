@@ -1,4 +1,5 @@
 import dif_divididas
+
 def inewton(x, fun, a):
     p_n = 0
     n = len(x)  # la posición n va a representar la diferencia de orden
